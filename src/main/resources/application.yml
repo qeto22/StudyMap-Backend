@@ -1,0 +1,6 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost:1433;databaseName=studymap;encrypt=false
+    username: sa
+    password: kitketo2001kitketo
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
