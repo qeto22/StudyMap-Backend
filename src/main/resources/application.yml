@@ -4,3 +4,17 @@ spring:
     username: sa
     password: kitketo2001kitketo
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+
+study-map:
+  jwt:
+    secret-key: 'NLTFICGRV1AJQTCNMVFPBQVVSC1MTJC55SFVCYPTNYBLJ1GQ3GB5L9AHOM7YJTYG'
