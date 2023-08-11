@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SignUpRequest {
 
-    private SystemUserType systemUserType;
+    private SystemUserType userType;
 
     private String firstName;
 

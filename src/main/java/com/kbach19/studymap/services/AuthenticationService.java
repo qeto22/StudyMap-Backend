@@ -35,7 +35,7 @@ public class AuthenticationService {
                                         .email(request.getEmail())
                                         .username(request.getUsername())
                                         .password(passwordEncoder.encode(request.getPassword()))
-                                        .type(request.getSystemUserType())
+                                        .type(request.getUserType())
                                         .build();
         systemUserRepository.save(newUser);
 
