@@ -1,7 +1,7 @@
 package com.kbach19.studymap.api;
 
 import com.kbach19.studymap.api.dto.UserDetailsResponse;
-import com.kbach19.studymap.auth.model.SystemUser;
+import com.kbach19.studymap.model.SystemUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;

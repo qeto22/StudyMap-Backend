@@ -1,6 +1,6 @@
 package com.kbach19.studymap.api.dto;
 
-import com.kbach19.studymap.auth.model.SystemUserType;
+import com.kbach19.studymap.model.SystemUserType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

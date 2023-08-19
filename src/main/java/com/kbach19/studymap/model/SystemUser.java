@@ -1,4 +1,4 @@
-package com.kbach19.studymap.auth.model;
+package com.kbach19.studymap.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

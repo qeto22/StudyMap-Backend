@@ -1,6 +1,6 @@
 package com.kbach19.studymap.auth;
 
-import com.kbach19.studymap.auth.model.SystemUser;
+import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.services.SystemUserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

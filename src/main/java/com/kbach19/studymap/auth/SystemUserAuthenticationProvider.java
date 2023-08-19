@@ -1,6 +1,6 @@
 package com.kbach19.studymap.auth;
 
-import com.kbach19.studymap.auth.model.SystemUser;
+import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.services.SystemUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;

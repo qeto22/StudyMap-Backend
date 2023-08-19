@@ -6,7 +6,7 @@ import com.kbach19.studymap.api.dto.SignInRequest;
 import com.kbach19.studymap.api.dto.SignInResponse;
 import com.kbach19.studymap.api.dto.SignUpRequest;
 import com.kbach19.studymap.api.dto.SignUpResponse;
-import com.kbach19.studymap.auth.model.SystemUser;
+import com.kbach19.studymap.model.SystemUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

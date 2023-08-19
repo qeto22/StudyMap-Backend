@@ -1,7 +1,7 @@
 package com.kbach19.studymap.api;
 
 import com.kbach19.studymap.api.dto.VideoCallTokenResponse;
-import com.kbach19.studymap.auth.model.SystemUser;
+import com.kbach19.studymap.model.SystemUser;
 import com.twilio.jwt.accesstoken.AccessToken;
 import com.twilio.jwt.accesstoken.VideoGrant;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,8 +11,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Random;
 
 @RestController
 @RequestMapping("/api/video")
