@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class StudyMapService {
@@ -16,14 +17,20 @@ public class StudyMapService {
     @Autowired
     private StudyMapRepository studyMapRepository;
 
+    @Autowired
+    private ImageService imageService;
+
     @SneakyThrows
-    public Long create(CreateStudyMapRequest request) {
+    public Long create(CreateStudyMapRequest request, MultipartFile image) {
+        String imageName = imageService.saveImage(image);
+
         SystemUser user = getAuthenticatedUser();
 
         String mapData = JsonUtils.getJsonString(request.getNodeData());
 
         StudyMap studyMap = StudyMap.builder()
                 .author(user)
+                .imagePath("/image/" + imageName)
                 .title(request.getMapTitle())
                 .description(request.getMapDescription())
                 .mapData(mapData)

@@ -9,8 +9,10 @@ import com.kbach19.studymap.services.StudyMapService;
 import com.kbach19.studymap.utils.JsonUtils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/map")
@@ -31,7 +33,6 @@ public class StudyMapController {
         Author author = Author.builder()
                 .name(studyMap.getAuthor().getFirstName() + " " + studyMap.getAuthor().getLastName())
                 .username(studyMap.getAuthor().getUsername())
-//                .description(studyMap.getAuthor().get)
                 .build();
 
         return ResponseEntity.ok(GetStudyMapResponse.builder()
@@ -42,10 +43,11 @@ public class StudyMapController {
                 .build());
     }
 
-    @PostMapping("/create")
-    public ResponseEntity<CreateStudyMapResponse> createStudyMap(@RequestBody CreateStudyMapRequest request) {
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<CreateStudyMapResponse> createStudyMap(@RequestPart("image") MultipartFile image,
+                                                                 @RequestPart("request") CreateStudyMapRequest request) {
         return ResponseEntity.ok(CreateStudyMapResponse.builder()
-                .id(studyMapService.create(request))
+                .id(studyMapService.create(request, image))
                 .build());
     }
 

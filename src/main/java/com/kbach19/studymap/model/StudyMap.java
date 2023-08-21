@@ -26,6 +26,8 @@ public class StudyMap {
     @ManyToOne
     private SystemUser author;
 
+    private String imagePath;
+
     private String title;
 
     private String description;
