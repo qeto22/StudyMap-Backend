@@ -8,6 +8,8 @@ import lombok.Data;
 @Builder
 public class GetStudyMapResponse {
 
+    private String imagePath;
+
     private String mapTitle;
 
     private String mapDescription;

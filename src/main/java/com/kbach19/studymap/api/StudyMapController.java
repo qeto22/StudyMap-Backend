@@ -14,6 +14,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/v1/map")
 public class StudyMapController {
@@ -36,11 +38,17 @@ public class StudyMapController {
                 .build();
 
         return ResponseEntity.ok(GetStudyMapResponse.builder()
+                .imagePath(studyMap.getImagePath())
                 .mapTitle(studyMap.getTitle())
                 .mapDescription(studyMap.getDescription())
                 .nodeData(JsonUtils.getJsonNode(studyMap.getMapData()))
                 .author(author)
                 .build());
+    }
+
+    @GetMapping("/own-maps")
+    public ResponseEntity<List<GetStudyMapResponse>> getOwnCreatedStudyMaps() {
+        return ResponseEntity.ok(studyMapService.getOwnCreatedStudyMaps());
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
