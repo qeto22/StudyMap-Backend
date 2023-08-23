@@ -38,6 +38,7 @@ public class StudyMapController {
                 .build();
 
         return ResponseEntity.ok(GetStudyMapResponse.builder()
+                .mapId(studyMap.getId())
                 .imagePath(studyMap.getImagePath())
                 .mapTitle(studyMap.getTitle())
                 .mapDescription(studyMap.getDescription())

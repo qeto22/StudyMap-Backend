@@ -67,6 +67,7 @@ public class StudyMapService {
                                 .build();
 
                         return GetStudyMapResponse.builder()
+                                .mapId(studyMap.getId())
                                 .imagePath(studyMap.getImagePath())
                                 .mapTitle(studyMap.getTitle())
                                 .mapDescription(studyMap.getDescription())

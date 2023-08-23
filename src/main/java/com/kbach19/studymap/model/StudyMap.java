@@ -26,12 +26,15 @@ public class StudyMap {
     @ManyToOne
     private SystemUser author;
 
+    @Column(length = Integer.MAX_VALUE)
     private String imagePath;
 
     private String title;
 
+    @Column(length = Integer.MAX_VALUE)
     private String description;
 
+    @Column(length = Integer.MAX_VALUE)
     private String mapData;
 
 }
