@@ -27,6 +27,9 @@ public class Course {
     private String description;
 
     @Column(length = Integer.MAX_VALUE)
+    private String objectives;
+
+    @Column(length = Integer.MAX_VALUE)
     private String tags;
 
     private String category;

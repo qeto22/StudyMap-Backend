@@ -23,4 +23,6 @@ public class CreateCourseRequest {
 
     private String courseTags;
 
+    private String courseLearningObjectives;
+
 }

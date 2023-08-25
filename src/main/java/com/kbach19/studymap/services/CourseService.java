@@ -27,6 +27,7 @@ public class CourseService {
         Course course = Course.builder()
                 .title(request.getCourseTitle())
                 .description(request.getCourseDescription())
+                .objectives(request.getCourseLearningObjectives())
                 .tags(request.getCourseTags())
                 .category(request.getCourseCategory())
                 .price(request.getCoursePrice())
