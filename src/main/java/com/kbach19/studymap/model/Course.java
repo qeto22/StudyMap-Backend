@@ -1,5 +1,6 @@
 package com.kbach19.studymap.model;
 
+import com.kbach19.studymap.api.dto.Author;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +39,9 @@ public class Course {
 
     @Column(length = Integer.MAX_VALUE)
     private String imageUrl;
+
+    @ManyToOne
+    private SystemUser author;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CourseSection> courseSectionList = new ArrayList<>();

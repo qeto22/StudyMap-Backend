@@ -6,6 +6,7 @@ import com.kbach19.studymap.api.dto.CreateStudyMapRequest;
 import com.kbach19.studymap.api.dto.GetStudyMapResponse;
 import com.kbach19.studymap.model.StudyMap;
 import com.kbach19.studymap.model.SystemUser;
+import com.kbach19.studymap.utils.AuthUtils;
 import com.kbach19.studymap.utils.JsonUtils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class StudyMapService {
     public Long create(CreateStudyMapRequest request, MultipartFile image) {
         String imageName = mediaServices.saveImage(image);
 
-        SystemUser user = getAuthenticatedUser();
+        SystemUser user = AuthUtils.getAuthenticatedUser();
 
         String mapData = JsonUtils.getJsonString(request.getNodeData());
 
@@ -46,17 +47,12 @@ public class StudyMapService {
         return studyMap.getId();
     }
 
-    private SystemUser getAuthenticatedUser() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return (SystemUser) authentication.getPrincipal();
-    }
-
     public StudyMap getStudyMap(Long id) {
         return studyMapRepository.findById(id).orElse(null);
     }
 
     public List<GetStudyMapResponse> getOwnCreatedStudyMaps() {
-        Long id = getAuthenticatedUser().getId();
+        Long id = AuthUtils.getAuthenticatedUser().getId();
 
         return studyMapRepository.findByAuthorId(id).stream()
                 .map(studyMap -> {

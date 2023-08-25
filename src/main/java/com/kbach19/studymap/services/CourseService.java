@@ -5,6 +5,7 @@ import com.kbach19.studymap.api.dto.CreateSectionRequest;
 import com.kbach19.studymap.model.Course;
 import com.kbach19.studymap.model.CourseSection;
 import com.kbach19.studymap.model.CourseVideo;
+import com.kbach19.studymap.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,6 +33,7 @@ public class CourseService {
                 .category(request.getCourseCategory())
                 .price(request.getCoursePrice())
                 .imageUrl(imageUrl)
+                .author(AuthUtils.getAuthenticatedUser())
                 .build();
         courseRepository.save(course);
 
