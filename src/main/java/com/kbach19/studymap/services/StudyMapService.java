@@ -25,11 +25,11 @@ public class StudyMapService {
     private StudyMapRepository studyMapRepository;
 
     @Autowired
-    private ImageService imageService;
+    private MediaServices mediaServices;
 
     @SneakyThrows
     public Long create(CreateStudyMapRequest request, MultipartFile image) {
-        String imageName = imageService.saveImage(image);
+        String imageName = mediaServices.saveImage(image);
 
         SystemUser user = getAuthenticatedUser();
 
