@@ -1,17 +1,15 @@
 package com.kbach19.studymap.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.kbach19.studymap.api.dto.Author;
 import com.kbach19.studymap.api.dto.CreateStudyMapRequest;
 import com.kbach19.studymap.api.dto.GetStudyMapResponse;
 import com.kbach19.studymap.model.StudyMap;
 import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.utils.AuthUtils;
+import com.kbach19.studymap.utils.DtoUtils;
 import com.kbach19.studymap.utils.JsonUtils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -57,18 +55,13 @@ public class StudyMapService {
         return studyMapRepository.findByAuthorId(id).stream()
                 .map(studyMap -> {
                     try {
-                        Author author = Author.builder()
-                                .name(studyMap.getAuthor().getFirstName() + " " + studyMap.getAuthor().getLastName())
-                                .username(studyMap.getAuthor().getUsername())
-                                .build();
-
                         return GetStudyMapResponse.builder()
                                 .mapId(studyMap.getId())
                                 .imagePath(studyMap.getImagePath())
                                 .mapTitle(studyMap.getTitle())
                                 .mapDescription(studyMap.getDescription())
                                 .nodeData(JsonUtils.getJsonNode(studyMap.getMapData()))
-                                .author(author)
+                                .author(DtoUtils.toDTO(studyMap.getAuthor()))
                                 .build();
                     } catch (JsonProcessingException e) {
                         return null;

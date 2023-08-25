@@ -1,11 +1,14 @@
 package com.kbach19.studymap.services;
 
+import com.kbach19.studymap.api.dto.CourseResponse;
 import com.kbach19.studymap.api.dto.CreateCourseRequest;
 import com.kbach19.studymap.api.dto.CreateSectionRequest;
 import com.kbach19.studymap.model.Course;
 import com.kbach19.studymap.model.CourseSection;
 import com.kbach19.studymap.model.CourseVideo;
+import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.utils.AuthUtils;
+import com.kbach19.studymap.utils.DtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -66,5 +69,36 @@ public class CourseService {
         course.getCourseSectionList().add(section);
 
         courseRepository.save(course);
+    }
+
+    public List<CourseResponse> getAuthoredCourses() {
+        SystemUser user = AuthUtils.getAuthenticatedUser();
+        return toDTO(courseRepository.findCourseByAuthorId(user.getId()));
+    }
+
+    public List<CourseResponse> getBoughtCourses() {
+        return new ArrayList<>();
+    }
+
+    private List<CourseResponse> toDTO(List<Course> courses) {
+        List<CourseResponse> courseResponseList = new ArrayList<>();
+        for (Course course : courses) {
+            courseResponseList.add(toDTO(course));
+        }
+        return courseResponseList;
+    }
+
+    private CourseResponse toDTO(Course course) {
+        return CourseResponse.builder()
+                .id(course.getId())
+                .title(course.getTitle())
+                .description(course.getDescription())
+                .objectives(course.getObjectives())
+                .tags(course.getTags())
+                .category(course.getCategory())
+                .price(course.getPrice())
+                .imageUrl(course.getImageUrl())
+                .author(DtoUtils.toDTO(course.getAuthor()))
+                .build();
     }
 }

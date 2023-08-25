@@ -13,5 +13,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CourseSearchResponse {
-    List<Course> courses = new ArrayList<>();
+    List<CourseResponse> cours = new ArrayList<>();
 }

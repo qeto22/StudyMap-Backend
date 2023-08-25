@@ -1,6 +1,5 @@
 package com.kbach19.studymap.model;
 
-import com.kbach19.studymap.api.dto.Author;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
