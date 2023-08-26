@@ -1,8 +1,6 @@
 package com.kbach19.studymap.services;
 
-import com.kbach19.studymap.api.dto.CourseResponse;
-import com.kbach19.studymap.api.dto.CreateCourseRequest;
-import com.kbach19.studymap.api.dto.CreateSectionRequest;
+import com.kbach19.studymap.api.dto.*;
 import com.kbach19.studymap.model.Course;
 import com.kbach19.studymap.model.CourseSection;
 import com.kbach19.studymap.model.CourseVideo;
@@ -15,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CourseService {
@@ -26,7 +25,7 @@ public class CourseService {
     private MediaServices mediaServices;
 
     public Long create(CreateCourseRequest request, MultipartFile image) {
-        String imageUrl = mediaServices.saveImage(image);
+        String imageUrl = "/image/" +  mediaServices.saveImage(image);
 
         Course course = Course.builder()
                 .title(request.getCourseTitle())
@@ -54,7 +53,7 @@ public class CourseService {
 
             CourseVideo video = CourseVideo.builder()
                     .title(videoTitles.get(i))
-                    .videoUrl(mediaServices.saveVideo(videos[i]))
+                    .videoUrl("/video/" + mediaServices.saveVideo(videos[i]))
                     .build();
             courseVideos.add(video);
         }
@@ -69,6 +68,12 @@ public class CourseService {
         course.getCourseSectionList().add(section);
 
         courseRepository.save(course);
+    }
+
+    public CourseResponse getCourse(Long id) {
+        Course course = courseRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown Course Id"));
+        return toDTO(course);
     }
 
     public List<CourseResponse> getAuthoredCourses() {
@@ -99,6 +104,19 @@ public class CourseService {
                 .price(course.getPrice())
                 .imageUrl(course.getImageUrl())
                 .author(DtoUtils.toDTO(course.getAuthor()))
+                .sections(course.getCourseSectionList()
+                        .stream()
+                        .map(courseSection -> SectionResponse.builder()
+                                .title(courseSection.getTitle())
+                                .videos(courseSection.getVideos()
+                                        .stream()
+                                        .map(courseVideo -> VideoResponse.builder()
+                                                .title(courseVideo.getTitle())
+                                                .videoUrl(courseVideo.getVideoUrl())
+                                                .build())
+                                        .collect(Collectors.toList()))
+                                .build())
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

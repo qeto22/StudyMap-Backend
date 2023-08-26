@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Data
 @Builder
@@ -30,5 +31,7 @@ public class CourseResponse {
     private String imageUrl;
 
     private Author author;
+
+    private List<SectionResponse> sections;
 
 }

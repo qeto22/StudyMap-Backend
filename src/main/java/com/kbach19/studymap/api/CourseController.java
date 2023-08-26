@@ -33,6 +33,11 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getBoughtCourses());
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<CourseResponse> getCourse(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(courseService.getCourse(id));
+    }
+
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateCourseResponse> createCourse(@RequestPart("image") MultipartFile image,
                                                                @RequestPart("request") CreateCourseRequest request) {
