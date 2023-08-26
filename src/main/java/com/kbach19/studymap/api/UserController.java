@@ -23,6 +23,7 @@ public class UserController {
                 .firstName(systemUser.getFirstName())
                 .lastName(systemUser.getLastName())
                 .imageUrl(systemUser.getImageUrl())
+                .type(systemUser.getType().name())
                 .build();
     }
 

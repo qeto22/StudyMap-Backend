@@ -9,4 +9,6 @@ public interface CourseRepository extends JpaRepository<Course, Long> {
 
     List<Course> findCourseByAuthorId(Long id);
 
+    List<Course> findTop4ByOrderByIdDesc();
+
 }

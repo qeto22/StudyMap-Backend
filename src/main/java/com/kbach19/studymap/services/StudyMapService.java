@@ -55,19 +55,36 @@ public class StudyMapService {
         return studyMapRepository.findByAuthorId(id).stream()
                 .map(studyMap -> {
                     try {
-                        return GetStudyMapResponse.builder()
-                                .mapId(studyMap.getId())
-                                .imagePath(studyMap.getImagePath())
-                                .mapTitle(studyMap.getTitle())
-                                .mapDescription(studyMap.getDescription())
-                                .nodeData(JsonUtils.getJsonNode(studyMap.getMapData()))
-                                .author(DtoUtils.toDTO(studyMap.getAuthor()))
-                                .build();
+                        return toDto(studyMap);
                     } catch (JsonProcessingException e) {
                         return null;
                     }
                 })
                 .filter(Objects::nonNull)
                 .collect(Collectors.toList());
+    }
+
+    public List<GetStudyMapResponse> getPopularStudyMaps() {
+        return studyMapRepository.findTop4ByOrderByIdDesc().stream()
+                .map(studyMap -> {
+                    try {
+                        return toDto(studyMap);
+                    } catch (JsonProcessingException e) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    private GetStudyMapResponse toDto(StudyMap studyMap) throws JsonProcessingException {
+        return GetStudyMapResponse.builder()
+                .mapId(studyMap.getId())
+                .imagePath(studyMap.getImagePath())
+                .mapTitle(studyMap.getTitle())
+                .mapDescription(studyMap.getDescription())
+                .nodeData(JsonUtils.getJsonNode(studyMap.getMapData()))
+                .author(DtoUtils.toDTO(studyMap.getAuthor()))
+                .build();
     }
 }

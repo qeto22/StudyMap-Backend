@@ -17,4 +17,6 @@ public class UserDetailsResponse {
 
     private String imageUrl;
 
+    private String type;
+
 }

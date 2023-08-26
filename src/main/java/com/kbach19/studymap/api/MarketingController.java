@@ -3,8 +3,11 @@ package com.kbach19.studymap.api;
 import com.kbach19.studymap.api.dto.Author;
 import com.kbach19.studymap.api.dto.CourseResponse;
 import com.kbach19.studymap.api.dto.CourseSearchResponse;
-import com.kbach19.studymap.api.dto.TopStudyMapsResponse;
+import com.kbach19.studymap.api.dto.GetStudyMapResponse;
+import com.kbach19.studymap.services.CourseService;
+import com.kbach19.studymap.services.StudyMapService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +19,20 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/v1/marketing")
 public class MarketingController {
 
+    @Autowired
+    private CourseService courseService;
+
+    @Autowired
+    private StudyMapService studyMapService;
+
     @GetMapping("/top-study-maps")
-    public ResponseEntity<TopStudyMapsResponse> getTopStudyMaps() {
-        return ResponseEntity.ok(new TopStudyMapsResponse());
+    public ResponseEntity<List<GetStudyMapResponse>> getTopStudyMaps() {
+        return ResponseEntity.ok(studyMapService.getPopularStudyMaps());
+    }
+
+    @GetMapping("/top-courses")
+    public ResponseEntity<List<CourseResponse>> getTopCourses() {
+        return ResponseEntity.ok(courseService.getPopularCourses());
     }
 
     @GetMapping("/courses")

@@ -85,6 +85,10 @@ public class CourseService {
         return new ArrayList<>();
     }
 
+    public List<CourseResponse> getPopularCourses() {
+        return toDTO(courseRepository.findTop4ByOrderByIdDesc());
+    }
+
     private List<CourseResponse> toDTO(List<Course> courses) {
         List<CourseResponse> courseResponseList = new ArrayList<>();
         for (Course course : courses) {
