@@ -61,7 +61,7 @@ public class UserController {
     public void updatePassword(@RequestPart(value = "newPassword") String newPassword) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SystemUser systemUser = (SystemUser) authentication.getPrincipal();
-        if (newPassword != null && !"".equals(newPassword)) {
+        if (newPassword != null && !newPassword.isEmpty()) {
             systemUser.setPassword(passwordEncoder.encode(newPassword));
         }
         em.merge(systemUser);
