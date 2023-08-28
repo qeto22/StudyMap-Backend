@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:sqlserver://localhost:1433;databaseName=studymap;encrypt=false
     username: sa
-    password: kitketo2001kitketo
+    password: Mfcatl007
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jpa:
     properties:
@@ -18,3 +18,8 @@ spring:
 study-map:
   jwt:
     secret-key: 'NLTFICGRV1AJQTCNMVFPBQVVSC1MTJC55SFVCYPTNYBLJ1GQ3GB5L9AHOM7YJTYG'
+
+twilio:
+  accountSid: 'AC87b1ad87496703670ec2a1b7bf1bf89e'
+  apiKeySid: 'SKf2cda581323a24cc38686619367af498'
+  apiKeySecret: 'yA2sBq3Pnm0gKO3sKeB71o89LEFeYaZL'

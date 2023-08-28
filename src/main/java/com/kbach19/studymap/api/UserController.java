@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,9 @@ public class UserController {
 
     @Autowired
     private MediaServices mediaServices;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PersistenceContext
     private EntityManager em;
@@ -50,6 +54,16 @@ public class UserController {
             systemUser.setImageUrl(mediaServices.saveImage(profileImage));
         }
 
+        em.merge(systemUser);
+    }
+
+    @PostMapping("/update-password")
+    public void updatePassword(@RequestPart(value = "newPassword") String newPassword) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SystemUser systemUser = (SystemUser) authentication.getPrincipal();
+        if (newPassword != null && !"".equals(newPassword)) {
+            systemUser.setPassword(passwordEncoder.encode(newPassword));
+        }
         em.merge(systemUser);
     }
 
