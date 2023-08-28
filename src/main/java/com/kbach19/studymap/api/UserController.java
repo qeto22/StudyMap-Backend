@@ -1,16 +1,28 @@
 package com.kbach19.studymap.api;
 
+import com.kbach19.studymap.api.dto.UpdateUserRequest;
 import com.kbach19.studymap.api.dto.UserDetailsResponse;
 import com.kbach19.studymap.model.SystemUser;
+import com.kbach19.studymap.services.MediaServices;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api/v1/user")
+@Transactional
 public class UserController {
+
+    @Autowired
+    private MediaServices mediaServices;
+
+    @PersistenceContext
+    private EntityManager em;
 
     @GetMapping
     public UserDetailsResponse getUserDetails() {
@@ -23,8 +35,22 @@ public class UserController {
                 .firstName(systemUser.getFirstName())
                 .lastName(systemUser.getLastName())
                 .imageUrl(systemUser.getImageUrl())
+                .description(systemUser.getDescription())
                 .type(systemUser.getType().name())
                 .build();
+    }
+
+    @PostMapping("/update")
+    public void updateUser(@RequestPart(value = "image", required = false) MultipartFile profileImage,
+                           @RequestPart("request") UpdateUserRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        SystemUser systemUser = (SystemUser) authentication.getPrincipal();
+        systemUser.setDescription(request.getDescription());
+        if (profileImage != null && !profileImage.isEmpty()) {
+            systemUser.setImageUrl(mediaServices.saveImage(profileImage));
+        }
+
+        em.merge(systemUser);
     }
 
 }

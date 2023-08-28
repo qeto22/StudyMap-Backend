@@ -37,6 +37,8 @@ public class SystemUser implements UserDetails {
 
     private String imageUrl;
 
+    private String description;
+
     @Enumerated(EnumType.STRING)
     private SystemUserType type;
 
