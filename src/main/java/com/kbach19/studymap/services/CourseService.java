@@ -1,10 +1,7 @@
 package com.kbach19.studymap.services;
 
 import com.kbach19.studymap.api.dto.*;
-import com.kbach19.studymap.model.Course;
-import com.kbach19.studymap.model.CourseSection;
-import com.kbach19.studymap.model.CourseVideo;
-import com.kbach19.studymap.model.SystemUser;
+import com.kbach19.studymap.model.*;
 import com.kbach19.studymap.utils.AuthUtils;
 import com.kbach19.studymap.utils.DtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,5 +119,13 @@ public class CourseService {
                                 .build())
                         .collect(Collectors.toList()))
                 .build();
+    }
+
+    public void postReview(PostReviewRequest request, Long courseId) {
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown Course Id"));
+        course.getReviews().add(DtoUtils.getReview(request));
+
+        courseRepository.save(course);
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class StudyMap {
+public class StudyMap extends Reviewable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

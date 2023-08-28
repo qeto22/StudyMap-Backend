@@ -3,6 +3,7 @@ package com.kbach19.studymap.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kbach19.studymap.api.dto.CreateStudyMapRequest;
 import com.kbach19.studymap.api.dto.GetStudyMapResponse;
+import com.kbach19.studymap.api.dto.PostReviewRequest;
 import com.kbach19.studymap.model.StudyMap;
 import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.utils.AuthUtils;
@@ -86,5 +87,12 @@ public class StudyMapService {
                 .nodeData(JsonUtils.getJsonNode(studyMap.getMapData()))
                 .author(DtoUtils.toDTO(studyMap.getAuthor()))
                 .build();
+    }
+
+    public void postReview(PostReviewRequest request, Long studyMapId) {
+        StudyMap studyMap = studyMapRepository.findById(studyMapId)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown Study Map Id"));
+        studyMap.getReviews().add(DtoUtils.getReview(request));
+        studyMapRepository.save(studyMap);
     }
 }

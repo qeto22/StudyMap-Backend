@@ -3,6 +3,7 @@ package com.kbach19.studymap.api;
 import com.kbach19.studymap.api.dto.CreateStudyMapRequest;
 import com.kbach19.studymap.api.dto.CreateStudyMapResponse;
 import com.kbach19.studymap.api.dto.GetStudyMapResponse;
+import com.kbach19.studymap.api.dto.PostReviewRequest;
 import com.kbach19.studymap.model.StudyMap;
 import com.kbach19.studymap.services.StudyMapService;
 import com.kbach19.studymap.utils.DtoUtils;
@@ -53,6 +54,13 @@ public class StudyMapController {
         return ResponseEntity.ok(CreateStudyMapResponse.builder()
                 .id(studyMapService.create(request, image))
                 .build());
+    }
+
+    @PostMapping(value = "/{id}/review")
+    public ResponseEntity<Void> postReview(@RequestBody PostReviewRequest request, @PathVariable("id") Long id) {
+        studyMapService.postReview(request, id);
+        return ResponseEntity.ok()
+                .build();
     }
 
 }

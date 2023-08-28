@@ -1,10 +1,7 @@
 package com.kbach19.studymap.api;
 
 
-import com.kbach19.studymap.api.dto.CourseResponse;
-import com.kbach19.studymap.api.dto.CreateCourseRequest;
-import com.kbach19.studymap.api.dto.CreateCourseResponse;
-import com.kbach19.studymap.api.dto.CreateSectionRequest;
+import com.kbach19.studymap.api.dto.*;
 import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.model.SystemUserType;
 import com.kbach19.studymap.services.CourseService;
@@ -40,7 +37,7 @@ public class CourseController {
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateCourseResponse> createCourse(@RequestPart("image") MultipartFile image,
-                                                               @RequestPart("request") CreateCourseRequest request) {
+                                                             @RequestPart("request") CreateCourseRequest request) {
         return ResponseEntity.ok(CreateCourseResponse.builder()
                 .id(courseService.create(request, image))
                 .build());
@@ -51,7 +48,14 @@ public class CourseController {
                                               @RequestPart("request") CreateSectionRequest request) {
         courseService.createSection(videos, request);
         return ResponseEntity.ok()
-                             .build();
+                .build();
+    }
+
+    @PostMapping(value = "/{id}/review")
+    public ResponseEntity<Void> postReview(@RequestBody PostReviewRequest request, @PathVariable("id") Long id) {
+        courseService.postReview(request, id);
+        return ResponseEntity.ok()
+                .build();
     }
 
 }
