@@ -2,10 +2,12 @@ package com.kbach19.studymap.api;
 
 
 import com.kbach19.studymap.api.dto.*;
+import com.kbach19.studymap.model.Review;
 import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.model.SystemUserType;
 import com.kbach19.studymap.services.CourseService;
 import com.kbach19.studymap.utils.AuthUtils;
+import com.kbach19.studymap.utils.DtoUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -52,10 +54,9 @@ public class CourseController {
     }
 
     @PostMapping(value = "/{id}/review")
-    public ResponseEntity<Void> postReview(@RequestBody PostReviewRequest request, @PathVariable("id") Long id) {
-        courseService.postReview(request, id);
-        return ResponseEntity.ok()
-                .build();
+    public ResponseEntity<ReviewResponse> postReview(@RequestBody PostReviewRequest request, @PathVariable("id") Long id) {
+        Review postedReview = courseService.postReview(request, id);
+        return ResponseEntity.ok(DtoUtils.getPostReviewResponse(postedReview));
     }
 
 }

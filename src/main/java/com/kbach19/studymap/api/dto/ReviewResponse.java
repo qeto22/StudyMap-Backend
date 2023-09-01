@@ -1,18 +1,16 @@
 package com.kbach19.studymap.api.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
-public class PostReviewRequest {
+public class ReviewResponse {
 
     private String reviewText;
 
     private float rating;
+
+    private Author author;
 
 }

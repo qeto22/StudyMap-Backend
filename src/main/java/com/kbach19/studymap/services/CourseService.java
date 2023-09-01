@@ -4,6 +4,7 @@ import com.kbach19.studymap.api.dto.*;
 import com.kbach19.studymap.model.*;
 import com.kbach19.studymap.utils.AuthUtils;
 import com.kbach19.studymap.utils.DtoUtils;
+import com.kbach19.studymap.utils.ValidationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -121,11 +122,17 @@ public class CourseService {
                 .build();
     }
 
-    public void postReview(PostReviewRequest request, Long courseId) {
+    public Review postReview(PostReviewRequest request, Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Course Id"));
-        course.getReviews().add(DtoUtils.getReview(request));
 
+        if (ValidationUtils.hasPostedReview(course.getReviews())) {
+            throw new IllegalArgumentException("You have already posted a review for this study map");
+        }
+
+        Review review = DtoUtils.getReview(request);
+        course.getReviews().add(review);
         courseRepository.save(course);
+        return review;
     }
 }

@@ -4,11 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.kbach19.studymap.api.dto.CreateStudyMapRequest;
 import com.kbach19.studymap.api.dto.GetStudyMapResponse;
 import com.kbach19.studymap.api.dto.PostReviewRequest;
+import com.kbach19.studymap.model.Review;
 import com.kbach19.studymap.model.StudyMap;
 import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.utils.AuthUtils;
 import com.kbach19.studymap.utils.DtoUtils;
 import com.kbach19.studymap.utils.JsonUtils;
+import com.kbach19.studymap.utils.ValidationUtils;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,9 @@ public class StudyMapService {
 
     @Autowired
     private StudyMapRepository studyMapRepository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Autowired
     private MediaServices mediaServices;
@@ -86,13 +91,25 @@ public class StudyMapService {
                 .mapDescription(studyMap.getDescription())
                 .nodeData(JsonUtils.getJsonNode(studyMap.getMapData()))
                 .author(DtoUtils.toDTO(studyMap.getAuthor()))
+                .reviews(studyMap.getReviews().stream()
+                                 .map(DtoUtils::getPostReviewResponse)
+                                 .collect(Collectors.toList()))
                 .build();
     }
 
-    public void postReview(PostReviewRequest request, Long studyMapId) {
+    public Review postReview(PostReviewRequest request, Long studyMapId) {
         StudyMap studyMap = studyMapRepository.findById(studyMapId)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Study Map Id"));
-        studyMap.getReviews().add(DtoUtils.getReview(request));
+
+        if (ValidationUtils.hasPostedReview(studyMap.getReviews())) {
+            throw new IllegalArgumentException("You have already posted a review for this study map");
+        }
+
+        Review review = DtoUtils.getReview(request);
+        review = reviewRepository.save(review);
+
+        studyMap.getReviews().add(review);
         studyMapRepository.save(studyMap);
+        return review;
     }
 }
