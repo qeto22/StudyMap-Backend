@@ -1,6 +1,5 @@
 package com.kbach19.studymap.api;
 
-import com.kbach19.studymap.api.dto.CourseResponse;
 import com.kbach19.studymap.api.dto.CreateStudyMapRequest;
 import com.kbach19.studymap.api.dto.CreateStudyMapResponse;
 import com.kbach19.studymap.api.dto.GetStudyMapResponse;

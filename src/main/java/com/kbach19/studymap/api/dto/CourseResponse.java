@@ -34,4 +34,6 @@ public class CourseResponse {
 
     private List<SectionResponse> sections;
 
+    private List<ReviewResponse> reviews;
+
 }

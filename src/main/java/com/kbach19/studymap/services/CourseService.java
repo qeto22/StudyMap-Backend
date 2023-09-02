@@ -22,6 +22,9 @@ public class CourseService {
     @Autowired
     private MediaServices mediaServices;
 
+    @Autowired
+    private ReviewRepository reviewRepository;
+
     public Long create(CreateCourseRequest request, MultipartFile image) {
         String imageUrl = "/image/" +  mediaServices.saveImage(image);
 
@@ -119,6 +122,14 @@ public class CourseService {
                                         .collect(Collectors.toList()))
                                 .build())
                         .collect(Collectors.toList()))
+                .reviews(course.getReviews()
+                        .stream()
+                        .map(review -> ReviewResponse.builder()
+                                .rating(review.getRating())
+                                .reviewText(review.getComment())
+                                .author(DtoUtils.toDTO(review.getAuthor()))
+                                .build())
+                        .collect(Collectors.toList()))
                 .build();
     }
 
@@ -135,6 +146,8 @@ public class CourseService {
         }
 
         Review review = DtoUtils.getReview(request);
+        review = reviewRepository.save(review);
+
         course.getReviews().add(review);
         courseRepository.save(course);
         return review;

@@ -9,6 +9,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,6 +39,9 @@ public class SystemUser implements UserDetails {
     private String imageUrl;
 
     private String description;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    private List<Course> boughtCourses = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private SystemUserType type;
