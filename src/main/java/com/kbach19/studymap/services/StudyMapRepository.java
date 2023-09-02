@@ -10,5 +10,7 @@ public interface StudyMapRepository extends JpaRepository<StudyMap, Long> {
 
     List<StudyMap> findByAuthorId(Long authorId);
 
+    List<StudyMap> findByAuthorUsername(String username);
+
     List<StudyMap> findTop4ByOrderByIdDesc();
 }

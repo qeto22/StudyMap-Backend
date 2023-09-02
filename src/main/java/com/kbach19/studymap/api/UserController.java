@@ -4,6 +4,7 @@ import com.kbach19.studymap.api.dto.UpdateUserRequest;
 import com.kbach19.studymap.api.dto.UserDetailsResponse;
 import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.services.MediaServices;
+import com.kbach19.studymap.services.SystemUserService;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -25,14 +26,21 @@ public class UserController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private SystemUserService systemUserService;
+
     @PersistenceContext
     private EntityManager em;
 
     @GetMapping
-    public UserDetailsResponse getUserDetails() {
+    public UserDetailsResponse getCurrentUserDetails() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         SystemUser systemUser = (SystemUser) authentication.getPrincipal();
 
+        return toDetailsResponse(systemUser);
+    }
+
+    private static UserDetailsResponse toDetailsResponse(SystemUser systemUser) {
         return UserDetailsResponse.builder()
                 .username(systemUser.getUsername())
                 .email(systemUser.getEmail())
@@ -42,6 +50,12 @@ public class UserController {
                 .description(systemUser.getDescription())
                 .type(systemUser.getType().name())
                 .build();
+    }
+
+    @GetMapping("/{username}")
+    public UserDetailsResponse getUser(@PathVariable("username") String username) {
+        SystemUser systemUser = systemUserService.loadUserByUsername(username);
+        return toDetailsResponse(systemUser);
     }
 
     @PostMapping("/update")

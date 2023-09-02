@@ -37,6 +37,11 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCourse(id));
     }
 
+    @GetMapping("/author/{username}")
+    public ResponseEntity<List<CourseResponse>> getAuthorCourses(@PathVariable("username") String username) {
+        return ResponseEntity.ok(courseService.getAuthorCourses(username));
+    }
+
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreateCourseResponse> createCourse(@RequestPart("image") MultipartFile image,
                                                              @RequestPart("request") CreateCourseRequest request) {

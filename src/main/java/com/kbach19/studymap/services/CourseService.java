@@ -122,6 +122,10 @@ public class CourseService {
                 .build();
     }
 
+    public List<CourseResponse> getAuthorCourses(String username) {
+        return toDTO(courseRepository.findCourseByAuthorUsername(username));
+    }
+
     public Review postReview(PostReviewRequest request, Long courseId) {
         Course course = courseRepository.findById(courseId)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Course Id"));

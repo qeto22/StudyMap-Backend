@@ -97,6 +97,20 @@ public class StudyMapService {
                 .build();
     }
 
+    public List<GetStudyMapResponse> getAuthorMaps(String username) {
+        List<StudyMap> studyMaps = studyMapRepository.findByAuthorUsername(username);
+        return studyMaps.stream()
+                .map(studyMap -> {
+                    try {
+                        return toDto(studyMap);
+                    } catch (JsonProcessingException e) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
     public Review postReview(PostReviewRequest request, Long studyMapId) {
         StudyMap studyMap = studyMapRepository.findById(studyMapId)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown Study Map Id"));

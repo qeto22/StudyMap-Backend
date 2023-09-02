@@ -1,5 +1,9 @@
 package com.kbach19.studymap.api;
 
+import com.kbach19.studymap.api.dto.CourseResponse;
+import com.kbach19.studymap.api.dto.CreateStudyMapRequest;
+import com.kbach19.studymap.api.dto.CreateStudyMapResponse;
+import com.kbach19.studymap.api.dto.GetStudyMapResponse;
 import com.kbach19.studymap.api.dto.*;
 import com.kbach19.studymap.model.Review;
 import com.kbach19.studymap.model.StudyMap;
@@ -48,6 +52,11 @@ public class StudyMapController {
     @GetMapping("/own-maps")
     public ResponseEntity<List<GetStudyMapResponse>> getOwnCreatedStudyMaps() {
         return ResponseEntity.ok(studyMapService.getOwnCreatedStudyMaps());
+    }
+
+    @GetMapping("/author/{username}")
+    public ResponseEntity<List<GetStudyMapResponse>> getAuthorCourses(@PathVariable("username") String username) {
+        return ResponseEntity.ok(studyMapService.getAuthorMaps(username));
     }
 
     @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
