@@ -2,6 +2,7 @@ package com.kbach19.studymap.api;
 
 import com.kbach19.studymap.api.dto.UpdateUserRequest;
 import com.kbach19.studymap.api.dto.UserDetailsResponse;
+import com.kbach19.studymap.model.Course;
 import com.kbach19.studymap.model.SystemUser;
 import com.kbach19.studymap.services.MediaServices;
 import com.kbach19.studymap.services.SystemUserService;
@@ -49,6 +50,7 @@ public class UserController {
                 .imageUrl(systemUser.getImageUrl())
                 .description(systemUser.getDescription())
                 .type(systemUser.getType().name())
+                .boughtCourseIds(systemUser.getBoughtCourses().stream().map(Course::getId).toList())
                 .build();
     }
 

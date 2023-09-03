@@ -3,6 +3,9 @@ package com.kbach19.studymap.api.dto;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @Builder
 public class UserDetailsResponse {
@@ -20,5 +23,7 @@ public class UserDetailsResponse {
     private String description;
 
     private String type;
+
+    private List<Long> boughtCourseIds = new ArrayList<>();
 
 }
