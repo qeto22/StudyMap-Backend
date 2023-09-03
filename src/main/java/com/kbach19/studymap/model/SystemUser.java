@@ -40,7 +40,7 @@ public class SystemUser implements UserDetails {
 
     private String description;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     private List<Course> boughtCourses = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
