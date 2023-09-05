@@ -31,4 +31,6 @@ public class Notification {
 
     private String additionalData;
 
+    private boolean seenByUser;
+
 }

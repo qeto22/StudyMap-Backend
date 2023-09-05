@@ -4,11 +4,14 @@ import com.kbach19.studymap.api.dto.MentorshipRequest;
 import com.kbach19.studymap.model.Notification;
 import com.kbach19.studymap.model.NotificationType;
 import com.kbach19.studymap.model.SystemUser;
+import com.kbach19.studymap.api.dto.NotificationResponse;
 import com.kbach19.studymap.utils.AuthUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @Service
 public class NotificationService {
@@ -33,4 +36,25 @@ public class NotificationService {
         notificationRepository.save(notification);
     }
 
+    public List<NotificationResponse> getNotifications() {
+        Long userId = AuthUtils.getAuthenticatedUser().getId();
+
+        List<Notification> notificationsList = notificationRepository.findAllByUserId(userId);
+        notificationsList.forEach(notification -> notification.setSeenByUser(true));
+        notificationRepository.saveAll(notificationsList);
+        return NotificationResponse.fromNotifications(notificationsList);
+    }
+
+    public List<NotificationResponse> getUnreadNotifications() {
+        Long userId = AuthUtils.getAuthenticatedUser().getId();
+
+        List<Notification> notificationsList = notificationRepository.findAllByUserIdAndSeenByUser(userId, false);
+        return NotificationResponse.fromNotifications(notificationsList);
+    }
+
+    public void markNotificationsAsRead(List<Long> notificationIds) {
+        List<Notification> notifications = notificationRepository.findAllByIdIn(notificationIds);
+        notifications.forEach(notification -> notification.setSeenByUser(true));
+        notificationRepository.saveAll(notifications);
+    }
 }
