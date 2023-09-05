@@ -19,7 +19,10 @@ public class PaymentService {
     @Autowired
     private SystemUserRepository systemUserRepository;
 
-    public void buy(BuyRequest buyRequest) {
+    @Autowired
+    private NotificationService notificationSerivce;
+
+    public void buy(BuyRequest buyRequest) throws Throwable {
         validateCard(buyRequest);
 
         SystemUser currentSystemUser = AuthUtils.getAuthenticatedUser();
@@ -27,6 +30,10 @@ public class PaymentService {
             Course course = courseRepository.findById(courseId)
                     .orElseThrow(() -> new RuntimeException("Course with id " + courseId + " not found"));
             currentSystemUser.getBoughtCourses().add(course);
+        }
+
+        if (buyRequest.getMentorshipNotificationId() != null) {
+            notificationSerivce.mentorshipDealFinalized(buyRequest.getMentorshipNotificationId());
         }
 
         systemUserRepository.save(currentSystemUser);

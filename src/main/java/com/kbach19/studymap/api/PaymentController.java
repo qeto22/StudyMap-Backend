@@ -17,7 +17,7 @@ public class PaymentController {
     private PaymentService paymentService;
 
     @PostMapping
-    public ResponseEntity<Void> buy(@RequestBody BuyRequest buyRequest) {
+    public ResponseEntity<Void> buy(@RequestBody BuyRequest buyRequest) throws Throwable {
         paymentService.buy(buyRequest);
         return ResponseEntity.ok(null);
     }

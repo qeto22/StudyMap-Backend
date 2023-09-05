@@ -1,8 +1,6 @@
 package com.kbach19.studymap.api;
 
-import com.kbach19.studymap.api.dto.NotificationResponse;
-import com.kbach19.studymap.api.dto.MarkNotificationAsReadRequest;
-import com.kbach19.studymap.api.dto.MentorshipRequest;
+import com.kbach19.studymap.api.dto.*;
 import com.kbach19.studymap.services.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +34,24 @@ public class NotificationController {
     @PostMapping("/request-mentorship")
     public ResponseEntity<Void> requestMentorship(@RequestBody MentorshipRequest request) throws Throwable {
         notificationService.requestMentorship(request);
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/accept-mentorship")
+    public ResponseEntity<Void> acceptMentorship(@RequestBody AcceptMentorshipRequest request) throws Throwable {
+        notificationService.acceptMentorship(request);
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/reject-mentorship")
+    public ResponseEntity<Void> rejectMentorship(@RequestBody RejectMentorshipRequest request) throws Throwable {
+        notificationService.rejectMentorship(request);
+        return ResponseEntity.ok(null);
+    }
+
+    @PostMapping("/reject-accepted-mentorship")
+    public ResponseEntity<Void> rejectMentorship(@RequestBody RejectAcceptedMentorshipRequest request) throws Throwable {
+        notificationService.rejectAcceptedMentorship(request);
         return ResponseEntity.ok(null);
     }
 

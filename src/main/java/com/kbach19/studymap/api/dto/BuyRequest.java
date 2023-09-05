@@ -14,7 +14,7 @@ public class BuyRequest {
 
     private List<Long> courseIds;
 
-    private List<Long> mentorshipRequestIds;
+    private Long mentorshipNotificationId;
 
     private String cardHolder;
 
