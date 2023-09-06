@@ -25,6 +25,9 @@ public class CourseService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private SystemUserRepository systemUserRepository;
+
     public Long create(CreateCourseRequest request, MultipartFile image) {
         String imageUrl = "/image/" +  mediaServices.saveImage(image);
 
@@ -83,7 +86,10 @@ public class CourseService {
     }
 
     public List<CourseResponse> getBoughtCourses() {
-        return new ArrayList<>();
+        Long currentUserId = AuthUtils.getAuthenticatedUser().getId();
+        SystemUser user = systemUserRepository.findById(currentUserId)
+                .orElseThrow(() -> new IllegalArgumentException("Unknown User Id"));
+        return toDTO(user.getBoughtCourses());
     }
 
     public List<CourseResponse> getPopularCourses() {
