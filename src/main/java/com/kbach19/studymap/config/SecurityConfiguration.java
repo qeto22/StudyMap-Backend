@@ -60,7 +60,7 @@ public class SecurityConfiguration {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // TODO: 8/5/2023 Amovigo application.yml-idan
+        configuration.setAllowedOrigins(List.of("http://16.16.223.70", "http://localhost:3000")); // TODO: 8/5/2023 Amovigo application.yml-idan
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true);
